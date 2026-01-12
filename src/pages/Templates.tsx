@@ -35,7 +35,10 @@ const Templates = () => {
                         <h1 className="text-4xl font-bold tracking-tight text-foreground">Templates</h1>
                         <p className="text-muted-foreground mt-2 text-lg font-light">Streamline your documentation with smart templates.</p>
                     </div>
-                    <Button className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 px-6 h-12 gap-2">
+                    <Button
+                        className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 px-6 h-12 gap-2"
+                        onClick={() => toast.info("Create template feature coming soon")}
+                    >
                         <Plus className="w-5 h-5" /> Create Template
                     </Button>
                 </div>

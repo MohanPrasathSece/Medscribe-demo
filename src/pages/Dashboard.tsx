@@ -70,6 +70,9 @@ const Dashboard = () => {
     }
   };
 
+  const hours = new Date().getHours();
+  const greeting = hours < 12 ? "Good Morning" : hours < 18 ? "Good Afternoon" : "Good Evening";
+
   return (
     <AppLayout>
       <div className="space-y-6 animate-fade-in pb-10">
@@ -77,8 +80,8 @@ const Dashboard = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground/90">Dashboard</h1>
-            <p className="text-muted-foreground mt-2 text-lg font-light">Overview of your practice performance.</p>
+            <h1 className="text-4xl font-bold tracking-tight text-foreground/90">{greeting}, Dr. Prasath</h1>
+            <p className="text-muted-foreground mt-2 text-lg font-light">Here is your daily practice overview.</p>
           </div>
           <div className="flex gap-3">
             <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 hover:text-primary backdrop-blur-sm bg-white/50 dark:bg-black/20" onClick={() => navigate('/consults')}>
