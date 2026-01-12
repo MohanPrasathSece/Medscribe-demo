@@ -150,16 +150,18 @@ const Consults = () => {
                                     </div>
 
                                     {/* Meta Info */}
-                                    <div className="flex items-center gap-6 md:justify-end text-sm text-muted-foreground">
-                                        <div className="flex items-center gap-2">
+                                    <div className="flex flex-wrap md:flex-nowrap items-center gap-y-2 gap-x-6 md:w-auto shrink-0 justify-end text-sm text-muted-foreground">
+                                        <div className="flex items-center gap-2 min-w-[60px]">
                                             <Clock className="w-4 h-4" /> {consult.duration}
                                         </div>
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 min-w-[100px]">
                                             <CalendarIcon className="w-4 h-4" /> {consult.lastUpdated}
                                         </div>
-                                        <Badge variant="outline" className={cn("px-3 py-1 rounded-full border border-current font-medium", getStatusColor(consult.status))}>
-                                            {consult.status}
-                                        </Badge>
+                                        <div className="min-w-[100px] flex justify-end">
+                                            <Badge variant="outline" className={cn("px-3 py-1 rounded-full border border-current font-medium", getStatusColor(consult.status))}>
+                                                {consult.status}
+                                            </Badge>
+                                        </div>
                                     </div>
 
                                     {/* Actions */}

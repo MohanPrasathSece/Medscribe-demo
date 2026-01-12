@@ -1,136 +1,159 @@
 import AppLayout from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Search, Plus, FileText, Filter } from "lucide-react";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { Search, Filter, Mail, Shield, User, MoreHorizontal, UserPlus, Users as UsersIcon, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 const Users = () => {
+    // Mock data
+    const users = [
+        { id: 1, name: "Mohan Prasath", email: "mohan@example.com", role: "Admin", status: "Active", lastActive: "Now" },
+        { id: 2, name: "Sarah Wilson", email: "sarah.w@clinic.com", role: "Practitioner", status: "Active", lastActive: "2h ago" },
+        { id: 3, name: "David Chen", email: "david.c@clinic.com", role: "Practitioner", status: "Offline", lastActive: "1d ago" },
+        { id: 4, name: "Emma Thompson", email: "emma.t@clinic.com", role: "Assistant", status: "Pending", lastActive: "Invited" },
+    ];
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case "Active": return "bg-emerald-500";
+            case "Offline": return "bg-zinc-300";
+            case "Pending": return "bg-amber-500";
+            default: return "bg-zinc-300";
+        }
+    };
+
     return (
         <AppLayout>
-            <div className="space-y-6 animate-fade-in">
+            <div className="space-y-8 animate-fade-in max-w-7xl mx-auto pb-12">
 
                 {/* Header Section */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex flex-col md:flex-row justify-between gap-6">
                     <div>
-                        <h1 className="text-4xl font-bold tracking-tight text-foreground/90">Users</h1>
-                        <p className="text-muted-foreground mt-2 text-lg font-light">Manage access and roles for your clinic.</p>
+                        <h1 className="text-4xl font-bold tracking-tight text-foreground">Team Members</h1>
+                        <p className="text-muted-foreground mt-2 text-lg font-light">Manage access, roles, and permissions.</p>
+                    </div>
+                    <Button className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 px-6 h-12 gap-2" onClick={() => toast.success("Invite modal open")}>
+                        <UserPlus className="w-5 h-5" /> Invite Member
+                    </Button>
+                </div>
+
+                {/* Quick Stats Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/50 shadow-sm flex items-center gap-4">
+                        <div className="p-3 rounded-xl bg-muted/50 text-foreground/70">
+                            <UsersIcon className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Total Members</p>
+                            <h3 className="text-2xl font-bold text-foreground">12</h3>
+                        </div>
+                    </div>
+                    <div className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/50 shadow-sm flex items-center gap-4">
+                        <div className="p-3 rounded-xl bg-muted/50 text-foreground/70">
+                            <Shield className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Admins</p>
+                            <h3 className="text-2xl font-bold text-foreground">3</h3>
+                        </div>
+                    </div>
+                    <div className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/50 shadow-sm flex items-center gap-4">
+                        <div className="p-3 rounded-xl bg-muted/50 text-foreground/70">
+                            <Clock className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Pending</p>
+                            <h3 className="text-2xl font-bold text-foreground">1</h3>
+                        </div>
                     </div>
                 </div>
 
-                {/* Search & Filter Bar */}
-                <div className="bg-card p-4 rounded-lg border border-border flex flex-col md:flex-row items-center gap-4 shadow-sm">
-                    <div className="relative flex-1 w-full">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <Input placeholder="Search query" className="pl-9 border-none bg-transparent shadow-none focus-visible:ring-0" />
+                {/* Main Content Area */}
+                <div className="space-y-6">
+                    {/* Controls Row */}
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="w-full md:w-auto relative flex-1 max-w-md">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Search by name or email..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="pl-9 h-11 rounded-lg bg-white dark:bg-zinc-900 border-border/50 focus-visible:ring-primary/20 shadow-sm w-full"
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-3 w-full md:w-auto">
+                            <Button variant="outline" className="h-11 px-4 gap-2 rounded-lg border-border/50 bg-white dark:bg-zinc-900 shadow-sm w-full md:w-auto">
+                                <Filter className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-sm font-normal">Filters</span>
+                            </Button>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-3 w-full md:w-auto">
-                        <Button variant="ghost" className="gap-2 text-muted-foreground ml-auto md:ml-0">
-                            <span className="md:hidden">Reset</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></svg>
-                        </Button>
-                        <Button className="bg-primary hover:bg-primary/90 gap-2 w-full md:w-auto">
-                            <Search className="w-4 h-4" />
-                            Search
-                        </Button>
-                    </div>
-                </div>
+                    {/* Users List - Cards */}
+                    <div className="grid gap-3">
+                        {filteredUsers.map((user) => (
+                            <div
+                                key={user.id}
+                                className="group relative bg-card rounded-xl p-4 shadow-sm border border-border/40 hover:border-primary/20 transition-all duration-200 flex flex-col md:flex-row md:items-center gap-4"
+                            >
+                                {/* Avatar & Info */}
+                                <div className="flex items-center gap-4 md:w-[350px]">
+                                    <div className="h-12 w-12 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary font-bold text-lg shrink-0">
+                                        {user.name.charAt(0)}
+                                    </div>
+                                    <div className="min-w-0">
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="font-semibold text-base text-foreground truncate">{user.name}</h3>
+                                            <div className={`w-2 h-2 rounded-full ${getStatusColor(user.status)}`} title={user.status} />
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground truncate">
+                                            <Mail className="w-3.5 h-3.5" /> {user.email}
+                                        </div>
+                                    </div>
+                                </div>
 
-                {/* Users List Card */}
-                <div className="medical-card p-0 overflow-hidden">
-                    <div className="hidden md:flex p-4 border-b border-border/50 justify-between items-center bg-primary/5 text-sm font-semibold text-muted-foreground">
-                        <div className="grid grid-cols-12 gap-4 w-full items-center">
-                            <div className="col-span-5">Name</div>
-                            <div className="col-span-2">Status</div>
-                            <div className="col-span-3">Role</div>
-                            <div className="col-span-2 text-right flex gap-2 justify-end">
-                                <Button size="sm" className="bg-primary hover:bg-primary/90 h-8" onClick={() => toast.success("Invite User modal open")}>
-                                    <Plus className="w-3 h-3 mr-1" /> Invite User
-                                </Button>
-                                <Button size="sm" variant="outline" className="h-8 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20" onClick={() => toast.success("Redirecting to invite list...")}>
-                                    <FileText className="w-3 h-3 mr-1" /> Invite List
-                                </Button>
+                                {/* Role Badge */}
+                                <div className="flex-1">
+                                    <Badge
+                                        variant="outline"
+                                        className={`px-3 py-1 text-xs font-medium border rounded-lg ${user.role === 'Admin'
+                                                ? 'bg-primary/5 text-primary border-primary/20'
+                                                : 'bg-muted/50 text-muted-foreground border-border'
+                                            }`}
+                                    >
+                                        {user.role}
+                                    </Badge>
+                                </div>
+
+                                {/* Last Active */}
+                                <div className="text-sm text-muted-foreground md:text-right md:w-[150px]">
+                                    <span className="md:hidden font-medium mr-2">Last active:</span>
+                                    {user.lastActive}
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex items-center justify-end gap-2 md:pl-4 md:border-l border-border/30">
+                                    <Button variant="ghost" size="sm" className="h-9 px-3 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg">
+                                        Edit
+                                    </Button>
+                                    <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-foreground rounded-lg">
+                                        <MoreHorizontal className="w-4 h-4" />
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Mobile Create Button */}
-                    <div className="md:hidden p-4 border-b border-border flex gap-2">
-                        <Button size="sm" className="bg-primary hover:bg-primary/90 flex-1" onClick={() => toast.success("Invite User modal open")}>
-                            <Plus className="w-4 h-4 mr-1" /> Invite User
-                        </Button>
-                        <Button size="sm" variant="outline" className="bg-primary/10 text-primary border-primary/20 flex-1" onClick={() => toast.success("Redirecting to invite list...")}>
-                            <FileText className="w-4 h-4 mr-1" /> Lists
-                        </Button>
-                    </div>
-
-                    <div className="divide-y divide-border/50">
-                        {/* User Row */}
-                        <div
-                            className="p-4 hover:bg-muted/30 transition-colors cursor-pointer group"
-                            onClick={() => toast.success("User profile: Mohan Prasath")}
-                        >
-                            <div className="flex flex-col gap-3 md:grid md:grid-cols-12 md:items-center">
-                                <div className="md:col-span-5 flex items-center gap-3">
-                                    <Avatar className="w-10 h-10 border border-border">
-                                        <AvatarImage src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" />
-                                        <AvatarFallback>MP</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">Mohan Prasath</div>
-                                        <div className="text-sm text-muted-foreground">mohanprasath563@gmail.com</div>
-                                    </div>
-                                    <div className="md:hidden ml-auto">
-                                        <Badge variant="outline" className="text-emerald hover:text-emerald-dark bg-emerald/10 border-emerald/20 font-normal">Active</Badge>
-                                    </div>
-                                </div>
-
-                                <div className="hidden md:block md:col-span-2">
-                                    <Badge variant="outline" className="text-emerald hover:text-emerald-dark bg-emerald/10 border-emerald/20 font-normal">Active</Badge>
-                                </div>
-
-                                <div className="flex items-center justify-between md:hidden">
-                                    <span className="text-sm text-muted-foreground">Roles:</span>
-                                    <div className="flex gap-2">
-                                        <Badge variant="secondary" className="bg-emerald/10 text-emerald-dark hover:bg-emerald/20 font-normal">Admin</Badge>
-                                        <Badge variant="secondary" className="bg-emerald/10 text-emerald-dark hover:bg-emerald/20 font-normal">Practitioner</Badge>
-                                    </div>
-                                </div>
-
-                                <div className="hidden md:flex md:col-span-3 gap-2">
-                                    <Badge variant="secondary" className="bg-emerald/10 text-emerald-dark hover:bg-emerald/20 font-normal">Admin</Badge>
-                                    <Badge variant="secondary" className="bg-emerald/10 text-emerald-dark hover:bg-emerald/20 font-normal">Practitioner</Badge>
-                                </div>
-
-                                <div className="md:col-span-2 flex justify-end md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Button variant="outline" size="sm" className="w-full md:w-auto" onClick={(e) => { e.stopPropagation(); toast.info("Edit user clicked"); }}>Edit</Button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Role Descriptions */}
-                    <div className="p-6 bg-muted/30 border-t border-border grid md:grid-cols-2 gap-8 text-sm">
-                        <div className="flex gap-3">
-                            <Badge variant="secondary" className="bg-emerald/10 text-emerald-dark h-fit hover:bg-emerald/20 font-normal self-start">Admin</Badge>
-                            <span className="text-muted-foreground">- Manages billing, licenses, user roles, and has access to all dashboards.</span>
-                        </div>
-                        <div className="flex gap-3">
-                            <Badge variant="secondary" className="bg-emerald/10 text-emerald-dark h-fit hover:bg-emerald/20 font-normal self-start">Practitioner</Badge>
-                            <span className="text-muted-foreground">- Allows full management (creating, editing, deleting) of consults and templates within their clinic or organization.</span>
-                        </div>
+                        ))}
                     </div>
                 </div>
-
             </div>
         </AppLayout>
     );

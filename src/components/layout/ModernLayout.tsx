@@ -8,7 +8,7 @@ interface AppLayoutProps {
 
 const ModernLayout = ({ children }: AppLayoutProps) => {
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0B1120] text-foreground font-sans selection:bg-primary/20 overflow-x-hidden relative">
+        <div className="min-h-screen bg-muted/30 dark:bg-background text-foreground font-sans selection:bg-primary/20 overflow-x-hidden relative">
             {/* Abstract Futuristic Background Blobs */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
                 <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl opacity-50 animate-pulse-slow"></div>
