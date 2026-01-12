@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm Light Theme - Cream & Emerald */
+    --background: 40 33% 98%;
+    --foreground: 160 25% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 160 25% 10%;
+
+    /* Fallback for buttons if gradient fails */
+    --emerald-dark-value: #047857;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 25% 10%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 160 25% 15%;
+    --muted: 40 20% 92%;
+    --muted-foreground: 160 10% 45%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 160 25% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 160 84% 39%;
+    --radius: 0.75rem;
+
+    /* Custom Colors required by Tailwind Config */
+    --emerald: 160 84% 39%;
+    --emerald-light: 160 80% 96%;
+    --emerald-dark: 160 84% 25%;
+    --gold: 38 92% 50%;
+    --gold-light: 38 92% 65%;
+    --cream: 40 33% 98%;
+    --charcoal: 160 25% 10%;
+
+    /* Custom Gradients & Shadows */
+    --gradient-emerald: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));
+    --shadow-sm: 0 2px 8px -2px hsl(160 25% 10% / 0.08);
+    --shadow-md: 0 8px 24px -4px hsl(160 25% 10% / 0.12);
+    --shadow-lg: 0 16px 48px -8px hsl(160 25% 10% / 0.15);
+    --shadow-glow: 0 0 40px hsl(160 84% 39% / 0.2);
+  }
+
+  .dark {
+    --background: 160 20% 7%;
+    --foreground: 40 20% 95%;
+    --card: 160 20% 14%;
+    --card-foreground: 40 20% 95%;
+    --popover: 160 20% 10%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 160 70% 50%;
+    --primary-foreground: 160 25% 5%;
+    --secondary: 160 15% 15%;
+    --secondary-foreground: 40 20% 90%;
+    --muted: 160 15% 15%;
+    --muted-foreground: 40 10% 55%;
+    --accent: 38 85% 55%;
+    --accent-foreground: 160 25% 5%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 15% 18%;
+    --input: 160 15% 18%;
+    --ring: 160 70% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold tracking-tight text-foreground;
+  }
+}
+
+@layer components {
+
+  /* Premium Futuristic Card */
+  .medical-card {
+    @apply bg-white/60 dark:bg-black/40 backdrop-blur-xl rounded-2xl md:rounded-3xl border border-white/40 dark:border-white/10 p-5 md:p-6 transition-all duration-300;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .medical-card:hover {
+    @apply bg-white/80 dark:bg-black/60 border-primary/20;
+    box-shadow: 0 20px 40px -4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  .medical-input {
+    @apply w-full px-4 py-3.5 rounded-xl border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-300;
+  }
+
+  .medical-input:hover {
+    @apply border-primary/50;
+  }
+
+  .glass-panel {
+    @apply bg-white/10 dark:bg-black/20 backdrop-blur-2xl border border-white/20 dark:border-white/5 shadow-2xl;
+  }
+
+  .bento-grid {
+    @apply grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6;
+    grid-auto-rows: minmax(180px, auto);
+  }
+
+  /* Restored Landing Page Utilities */
+  .medical-section {
+    @apply py-12 md:py-20;
+  }
+
+  .container-medical {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Map glass-card to glass-panel style for consistency, or improved version */
+  .glass-card {
+    @apply bg-white/60 dark:bg-black/40 backdrop-blur-xl rounded-2xl border border-white/20 dark:border-white/10 shadow-xl;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-emerald);
+  }
+
+  /* Button Shine Effect */
+  .btn-shine {
+    @apply relative overflow-hidden;
+  }
+
+  .btn-shine::before {
+    content: '';
+    @apply absolute top-0 -left-full w-full h-full;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-shine:hover::before {
+    left: 100%;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Animations */
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40 transition-colors;
+}
